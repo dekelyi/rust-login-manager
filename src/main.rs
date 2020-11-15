@@ -1,4 +1,5 @@
 use std::io;
+use termion::style;
 
 const CHOICES: [(&str, &str);3] = [
     ("shell", "zsh"),
@@ -10,7 +11,7 @@ fn print_list() {
     println!("What to launch??\n");
 
     for (i, (name, _cmd)) in CHOICES.iter().enumerate() {
-        println!("{}. {}", i, name);
+        println!("{2}{0}. {1}{3}", i, name, style::Bold, style::Reset);
     }
 }
 
@@ -22,6 +23,7 @@ fn get_choice() -> (&'static str, &'static str) {
 }
 
 fn main() {
+    print!("{}{}", termion::clear::All, termion::cursor::Goto(1, 1));
     print_list();
     let (name, cmd) = get_choice();
     println!("{}:>>> {}", name, cmd);
